@@ -22,6 +22,16 @@ YTDL_OPTIONS = {
     'no_warnings': True,
     'default_search': 'ytsearch',  # Default to YouTube search
     'source_address': '0.0.0.0',
+    # YouTube bot detection bypass
+    'extractor_args': {
+        'youtube': {
+            'player_client': ['android', 'web'],
+            'player_skip': ['webpage', 'configs'],
+        }
+    },
+    # Additional options to avoid bot detection
+    'nocache': True,
+    'age_limit': None,
 }
 
 # FFmpeg options for audio streaming (base)
