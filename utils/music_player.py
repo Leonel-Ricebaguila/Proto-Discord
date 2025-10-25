@@ -3,7 +3,7 @@ import asyncio
 import discord
 import yt_dlp as youtube_dl
 from typing import Optional, List
-from utils.config import YTDL_OPTIONS, get_ffmpeg_options
+from utils.config import YTDL_OPTIONS, FFMPEG_OPTIONS
 
 
 class Track:
@@ -40,7 +40,6 @@ class MusicPlayer:
         self.ytdl = youtube_dl.YoutubeDL(YTDL_OPTIONS)
         self.is_playing = False
         self.loop = False
-        self.equalizer = 'flat'  # Default equalizer preset
     
     async def add_track(self, query: str, requester: discord.Member):
         """Extract track information and add to queue.
@@ -167,10 +166,8 @@ class MusicPlayer:
                 
                 print(f"Playing audio from: {audio_url[:100]}...")
                 
-                # Create FFmpeg audio source with fresh URL and equalizer
-                ffmpeg_options = get_ffmpeg_options(self.equalizer)
-                print(f"Using equalizer: {self.equalizer}")
-                source = discord.FFmpegPCMAudio(audio_url, **ffmpeg_options)
+                # Create FFmpeg audio source with fresh URL
+                source = discord.FFmpegPCMAudio(audio_url, **FFMPEG_OPTIONS)
                 source = discord.PCMVolumeTransformer(source, volume=0.5)
                 
                 # Play the audio

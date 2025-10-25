@@ -62,8 +62,6 @@ class General(commands.Cog):
                 f"`{BOT_PREFIX}clear` - Clear the queue",
                 f"`{BOT_PREFIX}leave` - Disconnect the bot from voice",
                 f"`{BOT_PREFIX}volume [0-100]` - Set or show volume",
-                f"`{BOT_PREFIX}equalizer [preset]` - Set audio equalizer (bass, treble, etc.)",
-                f"`{BOT_PREFIX}filters` - Show current audio settings",
             ]
             embed.add_field(
                 name="🎵 Music Commands",

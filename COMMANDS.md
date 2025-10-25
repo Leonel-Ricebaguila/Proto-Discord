@@ -16,8 +16,6 @@ Quick reference for all available commands.
 | `!clear` | - | `!clear` | Clear the queue |
 | `!leave` | `!disconnect`, `!dc` | `!leave` | Disconnect from voice |
 | `!volume` | `!vol` | `!volume [0-100]` | Set or show volume |
-| `!equalizer` | `!eq` | `!equalizer [preset]` | Set audio equalizer preset |
-| `!filters` | - | `!filters` | Show current audio settings |
 
 ## ⚙️ General Commands
 
@@ -73,15 +71,6 @@ Quick reference for all available commands.
 !volume 50       # Set to 50%
 !vol 100         # Set to 100%
 
-# Equalizer / Audio Filters
-!equalizer       # Show all presets
-!eq bass         # Bass boost
-!eq treble       # Treble boost
-!eq nightcore    # Nightcore effect
-!eq party        # Party mode
-!eq flat         # Reset to normal
-!filters         # Show current settings
-
 # Check what's playing
 !nowplaying
 !np
@@ -109,8 +98,6 @@ Quick reference for all available commands.
 4. **Volume** ranges from 0 (mute) to 100 (max)
 5. **Queue** shows up to 10 upcoming tracks
 6. **Embeds** display rich information with thumbnails
-7. **Equalizer presets**: bass, treble, nightcore, vaporwave, soft, party, clear, flat
-8. **EQ changes** apply to next track (use `!skip` to hear immediately)
 
 ## 🚀 Quick Start
 

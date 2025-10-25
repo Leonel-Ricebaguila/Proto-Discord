@@ -3,7 +3,6 @@ import discord
 from discord.ext import commands
 from utils.music_player import MusicPlayer
 from utils.checks import is_in_voice_channel, is_in_same_voice_channel
-from utils.config import EQUALIZER_PRESETS
 
 
 class Music(commands.Cog):
@@ -288,117 +287,6 @@ class Music(commands.Cog):
             await ctx.send(f"🔊 Volume set to {volume}%")
         else:
             await ctx.send("❌ Nothing is currently playing.")
-    
-    @commands.command(name='equalizer', aliases=['eq'])
-    async def equalizer(self, ctx, preset: str = None):
-        """Set or display the audio equalizer preset.
-        
-        Available presets:
-        - flat: No equalization (default)
-        - bass: Bass boost
-        - treble: Treble boost
-        - nightcore: Higher pitch and faster
-        - vaporwave: Lower pitch and slower
-        - soft: Gentle, reduced harsh frequencies
-        - party: Boosted bass and treble
-        - clear: Optimized for voice clarity
-        """
-        player = self.get_player(ctx)
-        
-        if preset is None:
-            # Display current equalizer and available presets
-            embed = discord.Embed(
-                title="🎛️ Audio Equalizer",
-                description=f"Current preset: **{EQUALIZER_PRESETS[player.equalizer]['name']}**",
-                color=discord.Color.purple()
-            )
-            
-            # List all available presets
-            presets_text = []
-            for key, value in EQUALIZER_PRESETS.items():
-                marker = "🔊" if key == player.equalizer else "⚪"
-                presets_text.append(f"{marker} **{key}** - {value['name']}\n   _{value['description']}_")
-            
-            embed.add_field(
-                name="Available Presets",
-                value="\n\n".join(presets_text),
-                inline=False
-            )
-            
-            embed.set_footer(text=f"Use {ctx.prefix}eq <preset> to change | Changes apply to next track")
-            await ctx.send(embed=embed)
-            return
-        
-        # Set new equalizer preset
-        preset = preset.lower()
-        if preset not in EQUALIZER_PRESETS:
-            await ctx.send(
-                f"❌ Invalid preset! Use `{ctx.prefix}eq` to see available presets."
-            )
-            return
-        
-        player.equalizer = preset
-        preset_info = EQUALIZER_PRESETS[preset]
-        
-        embed = discord.Embed(
-            title="🎛️ Equalizer Updated",
-            description=f"Set to: **{preset_info['name']}**\n_{preset_info['description']}_",
-            color=discord.Color.green()
-        )
-        
-        # Note about when it applies
-        if player.is_playing:
-            embed.add_field(
-                name="📝 Note",
-                value="The new equalizer will apply to the next track.\nUse `!skip` to apply it to a new song now.",
-                inline=False
-            )
-        else:
-            embed.add_field(
-                name="✅ Ready",
-                value="The equalizer will be applied to all upcoming tracks.",
-                inline=False
-            )
-        
-        await ctx.send(embed=embed)
-    
-    @commands.command(name='filters')
-    async def filters(self, ctx):
-        """Show current audio filters and equalizer settings."""
-        player = self.get_player(ctx)
-        
-        embed = discord.Embed(
-            title="🎚️ Current Audio Settings",
-            color=discord.Color.blue()
-        )
-        
-        # Equalizer info
-        preset_info = EQUALIZER_PRESETS[player.equalizer]
-        embed.add_field(
-            name="🎛️ Equalizer",
-            value=f"**{preset_info['name']}**\n{preset_info['description']}",
-            inline=False
-        )
-        
-        # Volume info
-        if ctx.voice_client and ctx.voice_client.source:
-            current_volume = int(ctx.voice_client.source.volume * 100)
-            embed.add_field(
-                name="🔊 Volume",
-                value=f"{current_volume}%",
-                inline=True
-            )
-        
-        # Playing status
-        if player.is_playing:
-            embed.add_field(
-                name="▶️ Status",
-                value="Playing",
-                inline=True
-            )
-        
-        embed.set_footer(text=f"Use {ctx.prefix}eq to change equalizer | {ctx.prefix}volume to adjust volume")
-        await ctx.send(embed=embed)
 
 
 async def setup(bot):
