@@ -1,4 +1,5 @@
 """Main entry point for the Discord music bot."""
+import os
 from bot import create_bot
 from utils.config import DISCORD_TOKEN
 
@@ -6,6 +7,14 @@ from utils.config import DISCORD_TOKEN
 def main():
     """Main function to run the bot."""
     try:
+        # Start HTTP server if PORT is set (for Render web service)
+        if os.environ.get('PORT'):
+            import server
+            port = int(os.environ.get('PORT', 10000))
+            server.start_server(port)
+            print(f"✓ Health check server started on port {port}")
+        
+        # Start Discord bot
         bot = create_bot()
         bot.run(DISCORD_TOKEN)
     except ValueError as e:
